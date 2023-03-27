@@ -9,5 +9,5 @@ def login_p(request):
             login(request, user)
             return HttpResponse('Authenticated successfully')
         else:
-            return HttpResponse('Invalid login')
-    return render(request, 'authController/login.html')
+            return render(request, 'authController/login.html', {'error': 'Неверный логин/пароль!'})
+    return render(request, 'authController/login.html', {'error': ''})
