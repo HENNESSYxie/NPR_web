@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('', include('carRegister.urls')),
     path('admin/', admin.site.urls),
-    path('login/', include('authController.urls'))
+    path('account/', include('authController.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

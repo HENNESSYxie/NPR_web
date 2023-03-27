@@ -1,0 +1,32 @@
+{% extends 'carRegister/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+
+ <nav>
+      <div class="navbar">
+        <div class="container nav-container">
+            <input class="checkbox" type="checkbox" name="" id="" />
+            <div class="hamburger-lines">
+              <span class="line line1"></span>
+              <span class="line line2"></span>
+              <span class="line line3"></span>
+            </div>
+          <div class="logo">
+            <h3 style="margin: 0px; padding: 5px;">Система контроля доступа транспортных средств на парковку</h3>
+          </div>
+          <div class="menu-items">
+            <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Главная</a></li>
+            <li><a href="#"><i class="fa fa-history" aria-hidden="true"></i> История действий</a></li>
+            <li><a href="#"><i class="fa fa-info-circle" aria-hidden="true"></i> О нас</a></li>
+            <li><a href="#"><i class="fa fa-address-book" aria-hidden="true"></i> Контакты</a></li>
+            <li><a href="/account/logout"><i class="fa fa-times" aria-hidden="true"></i> Выйти</a></li>
+          </div>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
