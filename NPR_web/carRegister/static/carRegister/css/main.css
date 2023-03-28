@@ -148,6 +148,8 @@ body {
 .nav-container input[type="checkbox"]:checked ~ .logo{
   display: none;
 }
+
+
 body
 {
 background: rgb(2,0,36);
@@ -182,4 +184,25 @@ padding: 15px;
 .vl {
     border-left: 2px solid #9b9b9b;
     height: 52px;
+}
+
+.cameras
+{
+display: flex;
+transition: transform 0.5s ease-in-out;
+flex-direction: row;
+justify-content: space-around;
+margin: 20px;
+}
+
+.cam1, .cam2
+{
+width: 800px;
+height: 600px;
+border: 1px solid black;
+}
+
+#myCanvas, #myCanvas2 {
+    position: absolute;
+    border: 1px black solid;
 }
