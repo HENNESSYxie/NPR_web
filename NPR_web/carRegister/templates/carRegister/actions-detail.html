@@ -6,10 +6,24 @@
 {% endblock %}
 
 {% block content %}
+<div class="detailViewDiv" id="detailViewDiv">
 {{ item.employee.fullName }}
 {{ MEDIA_URL }}
 <img src="{{ MEDIA_URL }}{{ item.image }}" alt="">
 {{ item.employee.date_of_birth }}
 {{ item.employee.car_number }}
 {{ item.employee.job }}
+</div>
+<script>
+const myCheckbox = document.querySelector('#my-checkbox');
+const asd = document.getElementById('detailViewDiv');
+
+myCheckbox.addEventListener('change', () => {
+  if (myCheckbox.checked) {
+    asd.style.display = 'none';
+  } else {
+    asd.style.display = 'flex';
+  }
+});
+</script>
 {% endblock %}

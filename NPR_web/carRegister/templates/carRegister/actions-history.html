@@ -14,6 +14,7 @@
       <th scope="col">Номер</th>
       <th scope="col">Время</th>
         <th scope="col">Тип действия</th>
+      <th scope="col">-</th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +24,7 @@
       <td>{{ item.employee.fullName }}</td>
       <td>{{ item.employee.car_number }}</td>
       <td>{{ item.date }}</td>
+      <td>{{ item.type_of_action }}</td>
     <td><a href="{% url 'actions_detail' item.id %}">Подробнее</a></td>
     </tr>
   {% endfor %}
