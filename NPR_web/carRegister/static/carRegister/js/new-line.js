@@ -35,12 +35,16 @@ context.clearRect(0, 0, canvas.width, canvas.height);
     context.beginPath();
     context.strokeStyle = "red";
     context.lineWidth = 1;
+
     // Рисуем вертикальную линию
     context.moveTo(x, 0);
     context.lineTo(x, canvas.height);
+    context.rect(x, 0, canvas.width, canvas.height);
+    context.fillStyle = "#90EE90";
 
 
     // Отображаем линию на холсте
+    context.fill();
     context.stroke();
 
 

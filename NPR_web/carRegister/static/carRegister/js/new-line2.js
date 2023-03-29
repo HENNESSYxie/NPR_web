@@ -35,12 +35,16 @@ context2.clearRect(0, 0, canvas2.width, canvas2.height);
     context2.beginPath();
     context2.strokeStyle = "red";
     context2.lineWidth = 1;
+
+    context2.rect(x2, 0, canvas2.width, canvas2.height);
+    context2.fillStyle = "#90EE90";
     // Рисуем вертикальную линию
     context2.moveTo(x2, 0);
     context2.lineTo(x2, canvas2.height);
 
 
     // Отображаем линию на холсте
+    context2.fill();
     context2.stroke();
 
 
