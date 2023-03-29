@@ -1,0 +1,44 @@
+{% extends 'carRegister/layout.html' %}
+{% load static %}
+
+{% block title %}
+Исторяи действий
+{% endblock %}
+
+{% block content %}
+<table class="table" id="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Полное имя</th>
+      <th scope="col">Номер</th>
+      <th scope="col">Время</th>
+        <th scope="col">Тип действия</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in objects %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ item.employee.fullName }}</td>
+      <td>{{ item.employee.car_number }}</td>
+      <td>{{ item.date }}</td>
+    <td><a href="{% url 'actions_detail' item.id %}">Подробнее</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<script>
+const myCheckbox = document.querySelector('#my-checkbox');
+const table = document.getElementById('table');
+
+myCheckbox.addEventListener('change', () => {
+  if (myCheckbox.checked) {
+    table.style.display = 'none';
+  } else {
+    table.style.display = 'table';
+  }
+});
+</script>
+{% endblock %}
+

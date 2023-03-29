@@ -1,0 +1,15 @@
+{% extends 'carRegister/layout.html' %}
+{% load static %}
+
+{% block title %}
+Детали записи
+{% endblock %}
+
+{% block content %}
+{{ item.employee.fullName }}
+{{ MEDIA_URL }}
+<img src="{{ MEDIA_URL }}{{ item.image }}" alt="">
+{{ item.employee.date_of_birth }}
+{{ item.employee.car_number }}
+{{ item.employee.job }}
+{% endblock %}

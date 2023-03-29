@@ -2,8 +2,9 @@ import datetime
 
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, redirect
+from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
-from .models import Point
+from .models import Point, CarRegister
 import pytz
 
 
@@ -33,4 +34,16 @@ def last_point(request):
             response_data = {'x': point.x, 'y': point.y}
             return JsonResponse(response_data)
     return JsonResponse({'error': 'Invalid request'})
+
+
+@login_required(login_url='/account/login')
+def actions_history(request):
+    car_register = CarRegister.objects.all()
+    return render(request, 'carRegister/actions-history.html', {'objects': car_register})
+
+
+class MyModelDetailView(DetailView):
+    model = CarRegister
+    template_name = 'carRegister/actions-detail.html'
+    context_object_name = 'item'
 
