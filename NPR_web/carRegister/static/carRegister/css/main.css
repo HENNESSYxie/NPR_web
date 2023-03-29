@@ -202,7 +202,13 @@ height: 600px;
 border: 1px solid black;
 }
 
-#myCanvas, #myCanvas2 {
-    position: absolute;
+#my-canvas, #my-canvas2 {
     border: 1px black solid;
+    width: 800px;
+    height: 50px;
 }
+
+.first_select, .second_select
+{
+display: flex;
+flex-direction: column;}

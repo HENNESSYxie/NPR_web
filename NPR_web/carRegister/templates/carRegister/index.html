@@ -11,15 +11,23 @@
 
 <div class="cameras">
     <div class="cam1" style="background-image: url('{% static 'carRegister/img/offline.gif' %}')">
-    <img src="{% static 'carRegister/img/offline.gif' %}" alt="">
-    <canvas id="myCanvas"></canvas>
+    <img src="{% static 'carRegister/img/offline.gif' %}" alt="" id="cam1">
+    <div class="first_select">
+        <canvas id="my-canvas" width="800px"></canvas>
+        <button id="select-point-btn" class="btn btn-success">Выбрать точку</button>
+    </div>
     </div>
     <div class="cam2" style="background-image: url('{% static 'carRegister/img/offline.gif' %}')">
-        <img src="{% static 'carRegister/img/offline.gif' %}" alt="">
-        <canvas id="myCanvas2"></canvas>
+        <img src="{% static 'carRegister/img/offline.gif' %}" alt="" id="cam2">
+        <div class="second_select">
+            <canvas id="my-canvas2" width="800px"></canvas>
+            <button id="select-point-btn2" class="btn btn-success">Выбрать точку</button>
+        </div>
     </div>
 </div>
 <script src="{% static 'carRegister/js/script.js' %}"></script>
-<script src="{% static 'carRegister/js/canvas.js' %}"></script>
-<script src="{% static 'carRegister/js/canvas2.js' %}"></script>
+<script src="{% static 'carRegister/js/line.js' %}"></script>
+<script src="{% static 'carRegister/js/line2.js' %}"></script>
+<script src="{% static 'carRegister/js/new-line.js' %}"></script>
+<script src="{% static 'carRegister/js/new-line2.js' %}"></script>
 {% endblock %}
