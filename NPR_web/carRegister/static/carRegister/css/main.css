@@ -203,7 +203,7 @@ border: 1px solid black;
 }
 
 #my-canvas, #my-canvas2 {
-    border: 1px black solid;
+    border: 2px green solid;
     width: 800px;
     height: 50px;
 }

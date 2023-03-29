@@ -33,7 +33,7 @@ context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Рисуем точку
     context.beginPath();
-    context.strokeStyle = "black";
+    context.strokeStyle = "red";
     context.lineWidth = 1;
     // Рисуем вертикальную линию
     context.moveTo(x, 0);

@@ -5,7 +5,7 @@ fetch('/last_point?camera=' + 1)
     .then(response => response.json())
     .then(data => {
         ctx.beginPath();
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = "red";
         ctx.lineWidth = 1;
         // Рисуем вертикальную линию
         ctx.moveTo(data.x, 0);

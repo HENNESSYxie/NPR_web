@@ -33,7 +33,7 @@ context2.clearRect(0, 0, canvas2.width, canvas2.height);
 
     // Рисуем точку
     context2.beginPath();
-    context2.strokeStyle = "black";
+    context2.strokeStyle = "red";
     context2.lineWidth = 1;
     // Рисуем вертикальную линию
     context2.moveTo(x2, 0);
