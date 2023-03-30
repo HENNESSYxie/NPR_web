@@ -11,14 +11,14 @@
 
 <div class="cameras">
     <div class="cam1" style="background-image: url('{% static 'carRegister/img/offline.gif' %}')">
-    <img src="{% static 'carRegister/img/offline.gif' %}" alt="" id="cam1">
+    <img src="{% url 'video_feed' %}" alt="" width="800px" height="600px" id="cam1">
     <div class="first_select">
         <canvas id="my-canvas" width="800px"></canvas>
         <button id="select-point-btn" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Выбрать область, в которой будент распознаваться номерной знак">Выбрать точку</button>
     </div>
     </div>
     <div class="cam2" style="background-image: url('{% static 'carRegister/img/offline.gif' %}')">
-        <img src="{% static 'carRegister/img/offline.gif' %}" alt="" id="cam2">
+        <img src="{% url 'video_feed2' %}" alt="" id="cam2" width="800px" height="600px">
         <div class="second_select">
             <canvas id="my-canvas2" width="800px"></canvas>
             <button id="select-point-btn2" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Выбрать область, в которой будент распознаваться номерной знак">Выбрать точку</button>

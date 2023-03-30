@@ -1,9 +1,11 @@
 import datetime
-
-from django.http import JsonResponse
+import cv2
+from django.http import JsonResponse, StreamingHttpResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators import gzip
 from .models import Point, CarRegister
 import pytz
 
@@ -42,8 +44,45 @@ def actions_history(request):
     return render(request, 'carRegister/actions-history.html', {'objects': car_register})
 
 
-class MyModelDetailView(DetailView):
+class MyModelDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/account/login'
     model = CarRegister
     template_name = 'carRegister/actions-detail.html'
     context_object_name = 'item'
+
+
+@login_required(login_url='/account/login')
+@gzip.gzip_page
+def video_feed(request):
+    cap = cv2.VideoCapture(0)
+
+    def video_stream():
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            _, buffer = cv2.imencode('.jpg', cv2.flip(cv2.resize(frame, (800, 600)), 1))
+
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
+    return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+@login_required(login_url='/account/login')
+@gzip.gzip_page
+def video_feed2(request):
+    cap = cv2.VideoCapture(0)
+
+    def video_stream():
+        while True:
+            ret, frame = cap.read()
+
+            if not ret:
+                break
+
+            _, buffer = cv2.imencode('.jpg', cv2.flip(cv2.resize(frame, (800, 600)), 1))
+
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
+    return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
 
