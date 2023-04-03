@@ -1,5 +1,7 @@
+import pytz
 import datetime
 import cv2
+from openpyxl import Workbook
 from django.http import JsonResponse, StreamingHttpResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic.detail import DetailView
@@ -7,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators import gzip
 from .models import Point, CarRegister, WhiteList
-import pytz
 
 
 @login_required(login_url='/account/login')
@@ -100,4 +101,22 @@ def video_feed2(request):
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
     return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+@login_required(login_url='/account/login')
+def export_records(request):
+    queryset = CarRegister.objects.all()
+    wb = Workbook()
+    ws = wb.active
+    ws.append(['№', 'Номер автомобиля', 'Марка', 'Модель', "Год выпуска", "Дата", "Тип действия"])
+
+    for i, obj in enumerate(queryset):
+        row = [i+1, obj.employee.car_number, obj.employee.car_mark, obj.employee.car_model, obj.employee.car_year,
+               obj.date.strftime('%Y-%m-%d %H:%M:%S'), obj.type_of_action]
+        ws.append(row)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+    wb.save(response)
+    return response
 
