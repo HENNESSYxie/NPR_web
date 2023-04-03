@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators import gzip
-from .models import Point, CarRegister
+from .models import Point, CarRegister, WhiteList
 import pytz
 
 
@@ -40,8 +40,23 @@ def last_point(request):
 
 @login_required(login_url='/account/login')
 def actions_history(request):
-    car_register = CarRegister.objects.all()
-    return render(request, 'carRegister/actions-history.html', {'objects': car_register})
+    objects = {}
+    if request.method == 'POST':
+        number = request.POST.get('number').upper()
+        order = request.POST.get('order')
+        if number:
+            number = WhiteList.objects.filter(car_number=number)
+            cars = CarRegister.objects.filter(employee__in=number)
+        else:
+            cars = CarRegister.objects.all()
+
+        if order == "desc":
+            objects["objects"] = cars.order_by('-date')
+        else:
+            objects["objects"] = cars.order_by('date')
+    else:
+        objects["objects"] = CarRegister.objects.all()
+    return render(request, 'carRegister/actions-history.html', objects)
 
 
 class MyModelDetailView(LoginRequiredMixin, DetailView):

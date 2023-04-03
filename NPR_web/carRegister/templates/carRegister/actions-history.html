@@ -6,6 +6,27 @@
 {% endblock %}
 
 {% block content %}
+<div class="input-group" id="input-group" style="justify-content: center; margin: 5px;">
+  <form action="" method="POST" style="display: flex; flex-direction: column;">
+    {% csrf_token %}
+  <div class="form-outline">
+    <input type="search" id="form1" name="number" class="form-control" placeholder="Найти по номеру" />
+  </div>
+    <div style="display: flex;">
+    <div class="form-outline">
+     <select name="order" id="order" class="form-select">
+       <option value="desc"> Дата: По убыванию</option>
+      <option value="asc"> Дата: По возрастанию</option>
+    </select>
+      </div>
+  <button type="submit" class="btn btn-primary">
+  Применить <i class="fa fa-check"></i>
+  </button>
+      <a href="/actions-history/"><button class="btn btn-danger">Очистить <i class="fa fa-filter"></i></button></a>
+      </div>
+  </form>
+
+</div>
 <table class="table" id="table">
   <thead class="thead-dark">
     <tr>
@@ -31,12 +52,15 @@
 <script>
 const myCheckbox = document.querySelector('#my-checkbox');
 const table = document.getElementById('table');
+const search = document.getElementById('input-group');
 
 myCheckbox.addEventListener('change', () => {
   if (myCheckbox.checked) {
     table.style.display = 'none';
+    search.style.display = 'none';
   } else {
     table.style.display = 'table';
+    search.style.display = 'flex';
   }
 });
 </script>
