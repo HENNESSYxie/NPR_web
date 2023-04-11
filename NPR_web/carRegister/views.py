@@ -23,7 +23,8 @@ def save_point(request):
         y = request.POST.get("y")
         camera = request.POST.get("camera")
         x_relative = request.POST.get('x_relative')
-        point = Point.objects.create(x=x, y=y, camera=camera, x_relative=x_relative, date=datetime.datetime.now(pytz.timezone("Asia/Yekaterinburg")))
+        point = Point.objects.create(x=x, y=y, camera=camera, x_relative=x_relative,
+                                     date=datetime.datetime.now(pytz.timezone("Asia/Yekaterinburg")))
         point.save()
         return HttpResponse('OK')
 
@@ -43,10 +44,10 @@ def last_point(request):
 def actions_history(request):
     objects = {}
     if request.method == 'POST':
-        number = request.POST.get('number').upper()
+        number = request.POST.get('number')
         order = request.POST.get('order')
         if number:
-            number = WhiteList.objects.filter(car_number=number)
+            number = WhiteList.objects.filter(car_number=number.upper().strip())
             cars = CarRegister.objects.filter(employee__in=number)
         else:
             cars = CarRegister.objects.all()
@@ -81,6 +82,7 @@ def video_feed(request):
 
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
+
     return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -100,18 +102,30 @@ def video_feed2(request):
 
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
+
     return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 @login_required(login_url='/account/login')
 def export_records(request):
-    queryset = CarRegister.objects.all()
+    number = request.GET.get('number')
+    order = request.GET.get('order')
+    if number:
+        number = WhiteList.objects.filter(car_number=number.upper().strip())
+        cars = CarRegister.objects.filter(employee__in=number)
+    else:
+        cars = CarRegister.objects.all()
+    if order == "desc":
+        objects = cars.order_by('-date')
+    else:
+        objects = cars.order_by('date')
+    queryset = objects
     wb = Workbook()
     ws = wb.active
     ws.append(['№', 'Номер автомобиля', 'Марка', 'Модель', "Год выпуска", "Дата", "Тип действия"])
 
     for i, obj in enumerate(queryset):
-        row = [i+1, obj.employee.car_number, obj.employee.car_mark, obj.employee.car_model, obj.employee.car_year,
+        row = [i + 1, obj.employee.car_number, obj.employee.car_mark, obj.employee.car_model, obj.employee.car_year,
                obj.date.strftime('%Y-%m-%d %H:%M:%S'), obj.type_of_action]
         ws.append(row)
 
@@ -119,4 +133,3 @@ def export_records(request):
     response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
     wb.save(response)
     return response
-
