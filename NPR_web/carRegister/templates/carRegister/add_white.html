@@ -1,0 +1,18 @@
+{% extends 'carRegister/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Добавить в белый список
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" style="width: 500px; margin: 0 auto;">
+    {% csrf_token %}
+    {{ form.car_number }}
+    <button type="submit" class="btn btn-success">Добавить</button>
+    <span>{{ error }}</span>
+</form>
+<a href="/white_list" style="text-decoration: none"><button style="margin: 0 auto; display: flex;" class="btn btn-info">Назад</button></a>
+
+{% endblock %}

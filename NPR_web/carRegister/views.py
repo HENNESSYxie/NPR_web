@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators import gzip
 from .models import Point, CarRegister, WhiteList
+from .forms import WhiteListForm
 
 
 @login_required(login_url='/account/login')
@@ -133,3 +134,35 @@ def export_records(request):
     response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
     wb.save(response)
     return response
+
+
+@login_required(login_url='/account/login')
+def add_white(request):
+    error = ''
+    if request.method == "POST":
+        form = WhiteListForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/white_list')
+        else:
+            error = 'Форма была неверной'
+
+    form = WhiteListForm()
+    data = {'form': form,
+            'error': error}
+    return render(request, 'carRegister/add_white.html', data)
+
+
+
+@login_required(login_url='/account/login')
+def white_list(request):
+    white_list_objs = WhiteList.objects.all()
+    return render(request, 'carRegister/white_list.html', {'objects': white_list_objs})
+
+
+@login_required(login_url='/account/login')
+def white_list_delete(request, pk):
+    obj = WhiteList.objects.filter(id=pk)
+    obj.delete()
+    return redirect('/white_list')
+

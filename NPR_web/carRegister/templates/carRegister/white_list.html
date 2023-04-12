@@ -1,0 +1,44 @@
+{% extends 'carRegister/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Белый список
+{% endblock %}
+
+{% block content %}
+
+<table class="table" id="table">
+  <a href="/white_list/add_white" style="margin-right: 100px; display: flex; justify-content: right; text-decoration: none;"><button class="btn btn-success">Добавить номер</button></a>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Номер</th>
+      <th scope="col">-</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in objects %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ item.car_number }}</td>
+    <td><a href="{% url 'white_list_delete' item.id %}">Удалить</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<script>
+const myCheckbox = document.querySelector('#my-checkbox');
+const table = document.getElementById('table');
+const search = document.getElementById('input-group');
+
+myCheckbox.addEventListener('change', () => {
+  if (myCheckbox.checked) {
+    table.style.display = 'none';
+    search.style.display = 'none';
+  } else {
+    table.style.display = 'table';
+    search.style.display = 'flex';
+  }
+});
+</script>
+{% endblock %}
