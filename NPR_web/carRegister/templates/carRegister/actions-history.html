@@ -38,7 +38,7 @@
   </form>
 
 </div>
-<a href='/export_records/?order={{ request.POST.order|default_if_none:"" }}&number={{ request.POST.number|default_if_none:"" }}&date_from={{ request.POST.date_from|default_if_none:"" }}&date_to={{ request.POST.date_to|default_if_none:"" }}&type_of_action={{ request.POST.type_of_action|default_if_none:"" }}'><button style="margin: 0 auto; position: absolute; right: 100px;" class="btn btn-success">Экспорт в Excel</button></a>
+<a id="export_button" href='/export_records/?order={{ request.POST.order|default_if_none:"" }}&number={{ request.POST.number|default_if_none:"" }}&date_from={{ request.POST.date_from|default_if_none:"" }}&date_to={{ request.POST.date_to|default_if_none:"" }}&type_of_action={{ request.POST.type_of_action|default_if_none:"" }}'><button style="margin: 0 auto; position: absolute; right: 100px;" class="btn btn-success">Экспорт в Excel</button></a>
 <table class="table" id="table">
   <thead class="thead-dark">
     <tr>
@@ -65,14 +65,17 @@
 const myCheckbox = document.querySelector('#my-checkbox');
 const table = document.getElementById('table');
 const search = document.getElementById('input-group');
+const export_b = document.getElementById('export_button');
 
 myCheckbox.addEventListener('change', () => {
   if (myCheckbox.checked) {
     table.style.display = 'none';
     search.style.display = 'none';
+    export_b.style.display = 'none';
   } else {
     table.style.display = 'table';
     search.style.display = 'flex';
+    export_b.style.display = 'block';
   }
 });
 </script>
