@@ -47,16 +47,24 @@ def actions_history(request):
     if request.method == 'POST':
         number = request.POST.get('number')
         order = request.POST.get('order')
+        date_from = request.POST.get('date_from')
+        date_to = request.POST.get('date_to')
+        type_of_action = request.POST.get('type_of_action')
         if number:
             number = WhiteList.objects.filter(car_number=number.upper().strip())
-            cars = CarRegister.objects.filter(employee__in=number)
+            cars = CarRegister.objects.filter(employee__in=number).filter(type_of_action=type_of_action)
         else:
-            cars = CarRegister.objects.all()
+            cars = CarRegister.objects.filter(type_of_action=type_of_action)
 
         if order == "desc":
             objects["objects"] = cars.order_by('-date')
         else:
             objects["objects"] = cars.order_by('date')
+
+        if date_from:
+            objects["objects"] = cars.filter(date__gte=date_from)
+        if date_to:
+            objects["objects"] = cars.filter(date__lte=date_to)
     else:
         objects["objects"] = CarRegister.objects.all()
     return render(request, 'carRegister/actions-history.html', objects)
@@ -111,15 +119,23 @@ def video_feed2(request):
 def export_records(request):
     number = request.GET.get('number')
     order = request.GET.get('order')
+    date_from = request.GET.get('date_from')
+    date_to = request.GET.get('date_to')
+    type_of_action = request.GET.get('type_of_action')
     if number:
         number = WhiteList.objects.filter(car_number=number.upper().strip())
-        cars = CarRegister.objects.filter(employee__in=number)
+        cars = CarRegister.objects.filter(employee__in=number).filter(type_of_action=type_of_action)
     else:
-        cars = CarRegister.objects.all()
+        cars = CarRegister.objects.filter(type_of_action=type_of_action)
     if order == "desc":
         objects = cars.order_by('-date')
     else:
         objects = cars.order_by('date')
+
+    if date_from:
+        objects = objects.filter(date__gte=date_from)
+    if date_to:
+        objects = objects.filter(date__lte=date_to)
     queryset = objects
     wb = Workbook()
     ws = wb.active

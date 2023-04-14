@@ -12,22 +12,33 @@
   <div class="form-outline">
     <input type="search" id="form1" name="number" class="form-control" placeholder="Найти по номеру" />
   </div>
-    <div style="display: flex;">
-    <div class="form-outline">
+    <div style="display: flex; flex-direction: column">
+    <div class="form-outline" style="display: flex; justify-content: space-between;">
+      <section>Тип действия<select name="type_of_action" id="type_of_action" class="form-select">
+        <option value="Въезд">Въезд</option>
+        <option value="Выезд">Выезд</option>
+      </select>
+        </section>
+      <section>Сортировка
      <select name="order" id="order" class="form-select">
        <option value="desc"> Дата: По убыванию</option>
       <option value="asc"> Дата: По возрастанию</option>
     </select>
+        </section>
+      </div>
+      <div style="display: flex; flex-direction: row;">
+        <section>Дата от<input type="date" id="date_from" name="date_from" class="form-control"/></section>
+        <section>Дата до<input type="date" id="date_to" name="date_to" class="form-control"/></section>
       </div>
   <button type="submit" class="btn btn-primary">
   Применить <i class="fa fa-check"></i>
   </button>
-      <a href="/actions-history/"><button class="btn btn-danger">Очистить <i class="fa fa-filter"></i></button></a>
+      <a href="/actions-history/"><button class="btn btn-danger" style="width: 100%;">Очистить <i class="fa fa-filter" ></i></button></a>
       </div>
   </form>
 
 </div>
-<a href='/export_records/?order={{ request.POST.order|default_if_none:"" }}&number={{ request.POST.number|default_if_none:"" }}'><button style="margin: 0 auto; position: absolute; right: 100px;" class="btn btn-success">Экспорт в Excel</button></a>
+<a href='/export_records/?order={{ request.POST.order|default_if_none:"" }}&number={{ request.POST.number|default_if_none:"" }}&date_from={{ request.POST.date_from|default_if_none:"" }}&date_to={{ request.POST.date_to|default_if_none:"" }}&type_of_action={{ request.POST.type_of_action|default_if_none:"" }}'><button style="margin: 0 auto; position: absolute; right: 100px;" class="btn btn-success">Экспорт в Excel</button></a>
 <table class="table" id="table">
   <thead class="thead-dark">
     <tr>
