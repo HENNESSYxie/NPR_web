@@ -9,6 +9,7 @@
 
 <form method="POST" style="width: 500px; margin: 0 auto;">
     {% csrf_token %}
+    {{ form.name }}
     {{ form.car_number }}
     <button type="submit" class="btn btn-success">Добавить</button>
     <span>{{ error }}</span>

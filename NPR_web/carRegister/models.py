@@ -14,6 +14,7 @@ class Point(models.Model):
 
 
 class WhiteList(models.Model):
+    name = models.CharField('Имя пользователя', max_length=50)
     car_number = models.CharField('Номер автомобиля', max_length=11)
 
     def __str__(self):
@@ -21,7 +22,7 @@ class WhiteList(models.Model):
 
 
 class CarRegister(models.Model):
-    employee = models.ForeignKey(WhiteList, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(WhiteList, on_delete=models.CASCADE)
     type_of_action = models.CharField("Название действия", max_length=20)
     date = models.DateTimeField("Время")
     image = models.ImageField(upload_to='carRegister/')

@@ -13,6 +13,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Номер</th>
+       <th scope="col">Сотрудник</th>
       <th scope="col">-</th>
     </tr>
   </thead>
@@ -21,6 +22,7 @@
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
       <td>{{ item.car_number }}</td>
+      <td>{{ item.name }}</td>
     <td><a href="{% url 'white_list_delete' item.id %}">Удалить</a></td>
     </tr>
   {% endfor %}

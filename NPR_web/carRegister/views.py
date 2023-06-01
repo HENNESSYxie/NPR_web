@@ -1,12 +1,14 @@
 import pytz
 import datetime
 import cv2
+import json
 from openpyxl import Workbook
 from django.http import JsonResponse, StreamingHttpResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
 from django.views.decorators import gzip
 from .models import Point, CarRegister, WhiteList
 from .forms import WhiteListForm
@@ -169,11 +171,49 @@ def add_white(request):
     return render(request, 'carRegister/add_white.html', data)
 
 
+def add_white_1c(request):
+    number = request.GET['number']
+    name = request.GET['name']
+    if WhiteList.objects.filter(car_number=number).exists():
+        return HttpResponse("Сотрудник с таким номером присутсвует в базе")
+    elif number and name:
+        white = WhiteList(car_number=number, name=name)
+        white.save()
+        return HttpResponse("Данные записаны успешно")
+    return HttpResponse("Неверные входные данные")
 
-@login_required(login_url='/account/login')
+def get_white_list_1c(request):
+    white_list = serializers.serialize('json', WhiteList.objects.all())
+    return HttpResponse(white_list, content_type='application/json')
+
+
 def white_list(request):
     white_list_objs = WhiteList.objects.all()
     return render(request, 'carRegister/white_list.html', {'objects': white_list_objs})
+
+def delete_1c(request):
+    number = request.GET['number']
+    obj = WhiteList.objects.filter(car_number=number)
+    obj.delete()
+    return HttpResponse("OK")
+
+def get_actions_history_1c(request):
+    actions = CarRegister.objects.all()
+    if 'name' in request.GET:
+        number = WhiteList.objects.filter(name=request.GET['name'])
+        actions = actions.filter(employee__in=number)
+    if "date_from" in request.GET:
+        actions = actions.filter(date__gte=request.GET['date_from'])
+    if "date_to" in request.GET:
+        actions = actions.filter(date__lte=request.GET['date_to'])
+
+    result = []
+    for act in actions:
+        tmp = {'name': act.employee.name, 'number': act.employee.car_number, 'date': str(act.date),
+               'type_of_action': act.type_of_action}
+        result.append(tmp)
+    res = json.dumps(result)
+    return HttpResponse(res, content_type='application/json')
 
 
 @login_required(login_url='/account/login')
